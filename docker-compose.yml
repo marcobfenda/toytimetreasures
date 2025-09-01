@@ -1,0 +1,82 @@
+services:
+  # MySQL Database
+  mysql:
+    image: mysql:8.0
+    container_name: onlineshop_mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: onlineshop
+      MYSQL_USER: onlineshop_user
+      MYSQL_PASSWORD: onlineshop_password
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./backend/database/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - onlineshop_network
+
+  # PHP Backend
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: onlineshop_backend
+    restart: unless-stopped
+    ports:
+      - "8000:80"
+    volumes:
+      - ./backend:/var/www/html
+      - ./backend/php.ini:/usr/local/etc/php/php.ini
+    depends_on:
+      - mysql
+    networks:
+      - onlineshop_network
+    environment:
+      - DB_HOST=mysql
+      - DB_NAME=onlineshop
+      - DB_USER=onlineshop_user
+      - DB_PASS=onlineshop_password
+
+  # Node.js Frontend
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: onlineshop_frontend
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    depends_on:
+      - backend
+    networks:
+      - onlineshop_network
+    environment:
+      - REACT_APP_API_URL=http://localhost:8000/api
+
+  # Nginx Reverse Proxy
+  nginx:
+    image: nginx:alpine
+    container_name: onlineshop_nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - frontend
+      - backend
+    networks:
+      - onlineshop_network
+
+volumes:
+  mysql_data:
+
+networks:
+  onlineshop_network:
+    driver: bridge

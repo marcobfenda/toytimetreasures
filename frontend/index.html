@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Toy Time Treasures - Your One-Stop Toy & Treasure Destination</title>
+    <meta name="description" content="Discover amazing toys and treasures at unbeatable prices. Shop the latest trends with quality assurance and excellent customer service.">
+    <meta name="keywords" content="toys, treasures, online shop, ecommerce, shopping, products, deals, fashion, electronics, home">
+    <meta name="author" content="Toy Time Treasures">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Toy Time Treasures - Your One-Stop Toy & Treasure Destination">
+    <meta property="og:description" content="Discover amazing toys and treasures at unbeatable prices. Shop the latest trends with quality assurance and excellent customer service.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://toytimetreasures.com">
+    <meta property="og:image" content="/images/og-image.jpg">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Toy Time Treasures - Your One-Stop Toy & Treasure Destination">
+    <meta name="twitter:description" content="Discover amazing toys and treasures at unbeatable prices. Shop the latest trends with quality assurance and excellent customer service.">
+    <meta name="twitter:image" content="/images/twitter-image.jpg">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    
+    <!-- Preconnect to external domains for performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Preload critical resources -->
+    <link rel="preload" href="/src/assets/css/style.css" as="style">
+    
+    <!-- Theme Color -->
+    <meta name="theme-color" content="#007bff">
+    
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "Toy Time Treasures",
+        "url": "https://toytimetreasures.com",
+        "logo": "https://toytimetreasures.com/images/logo.png",
+        "description": "Your one-stop destination for quality toys and treasures. We offer the best selection with competitive prices and excellent customer service.",
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "123 Toy Street",
+            "addressLocality": "Play City",
+            "addressCountry": "PC 12345"
+        },
+        "contactPoint": {
+            "@type": "ContactPoint",
+            "telephone": "+1-234-567-8900",
+            "contactType": "customer service",
+            "email": "info@toytimetreasures.com"
+        },
+        "sameAs": [
+            "https://facebook.com/toytimetreasures",
+            "https://twitter.com/toytimetreasures",
+            "https://instagram.com/toytimetreasures"
+        ]
+    }
+    </script>
+</head>
+<body>
+    <div id="app">
+        <!-- Loading spinner while Vue app initializes -->
+        <div class="loading-spinner">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Loading spinner styles -->
+    <style>
+        .loading-spinner {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+        
+        .spinner-border {
+            width: 3rem;
+            height: 3rem;
+        }
+        
+        /* Hide spinner when Vue app is ready */
+        .vue-ready .loading-spinner {
+            display: none;
+        }
+    </style>
+    
+    <!-- Script to hide loading spinner when Vue app is ready -->
+    <script>
+        // Hide loading spinner when Vue app is ready
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                document.body.classList.add('vue-ready');
+            }, 1000);
+        });
+    </script>
+    
+    <!-- Main application script -->
+    <script type="module" src="/src/main.js"></script>
+</body>
+</html>

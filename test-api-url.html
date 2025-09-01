@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API URL Test</title>
+</head>
+<body>
+    <h1>API URL Test</h1>
+    <p>Current URL: <span id="current-url"></span></p>
+    <p>API URL: <span id="api-url"></span></p>
+    
+    <button onclick="testApiCall()">Test API Call</button>
+    <div id="result"></div>
+
+    <script>
+        // Get the correct API base URL based on current environment
+        const getApiUrl = () => {
+            // If we're on localhost:3000 (Vite dev server), use localhost:80 for API
+            if (window.location.port === '3000') {
+                return 'http://localhost'
+            }
+            // Otherwise use relative URL (for production/Nginx)
+            return ''
+        }
+
+        // Display current information
+        document.getElementById('current-url').textContent = window.location.href
+        document.getElementById('api-url').textContent = getApiUrl() + '/api/auth.php'
+
+        // Test API call
+        async function testApiCall() {
+            const resultDiv = document.getElementById('result')
+            resultDiv.innerHTML = 'Testing API call...'
+            
+            try {
+                const response = await fetch(`${getApiUrl()}/api/auth.php`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        action: 'test'
+                    })
+                })
+
+                const data = await response.json()
+                resultDiv.innerHTML = `<strong>Success!</strong> Response: ${JSON.stringify(data)}`
+            } catch (error) {
+                resultDiv.innerHTML = `<strong>Error:</strong> ${error.message}`
+            }
+        }
+    </script>
+</body>
+</html>
+
