@@ -2,11 +2,6 @@ const { test, expect } = require('@playwright/test');
 
 test.describe('Checkout Tests', () => {
   test.beforeEach(async ({ page }) => {
-    // Clear any existing state
-    await page.evaluate(() => {
-      localStorage.clear();
-      sessionStorage.clear();
-    });
     await page.goto('/');
   });
 
@@ -20,7 +15,7 @@ test.describe('Checkout Tests', () => {
 
   test('should display checkout form when authenticated', async ({ page }) => {
     // Mock authentication state
-    await page.evaluate(() => {
+    await page.addInitScript(() => {
       localStorage.setItem('isAuthenticated', 'true');
       localStorage.setItem('user', JSON.stringify({
         id: 1,
@@ -53,7 +48,7 @@ test.describe('Checkout Tests', () => {
 
   test('should display order summary in checkout', async ({ page }) => {
     // Mock authentication and add product to cart
-    await page.evaluate(() => {
+    await page.addInitScript(() => {
       localStorage.setItem('isAuthenticated', 'true');
       localStorage.setItem('user', JSON.stringify({
         id: 1,
@@ -155,7 +150,7 @@ test.describe('Checkout Tests', () => {
 
   test('should display shipping address form', async ({ page }) => {
     // Mock authentication and add product to cart
-    await page.evaluate(() => {
+    await page.addInitScript(() => {
       localStorage.setItem('isAuthenticated', 'true');
       localStorage.setItem('user', JSON.stringify({
         id: 1,
@@ -216,7 +211,7 @@ test.describe('Checkout Tests', () => {
 
   test('should display payment method options', async ({ page }) => {
     // Mock authentication and add product to cart
-    await page.evaluate(() => {
+    await page.addInitScript(() => {
       localStorage.setItem('isAuthenticated', 'true');
       localStorage.setItem('user', JSON.stringify({
         id: 1,
@@ -262,7 +257,7 @@ test.describe('Checkout Tests', () => {
 
   test('should display credit card form when selected', async ({ page }) => {
     // Mock authentication and add product to cart
-    await page.evaluate(() => {
+    await page.addInitScript(() => {
       localStorage.setItem('isAuthenticated', 'true');
       localStorage.setItem('user', JSON.stringify({
         id: 1,
@@ -318,7 +313,7 @@ test.describe('Checkout Tests', () => {
 
   test('should validate required fields', async ({ page }) => {
     // Mock authentication and add product to cart
-    await page.evaluate(() => {
+    await page.addInitScript(() => {
       localStorage.setItem('isAuthenticated', 'true');
       localStorage.setItem('user', JSON.stringify({
         id: 1,
@@ -361,7 +356,7 @@ test.describe('Checkout Tests', () => {
 
   test('should calculate shipping costs', async ({ page }) => {
     // Mock authentication and add product to cart
-    await page.evaluate(() => {
+    await page.addInitScript(() => {
       localStorage.setItem('isAuthenticated', 'true');
       localStorage.setItem('user', JSON.stringify({
         id: 1,
@@ -414,7 +409,7 @@ test.describe('Checkout Tests', () => {
 
   test('should display order total with all costs', async ({ page }) => {
     // Mock authentication and add product to cart
-    await page.evaluate(() => {
+    await page.addInitScript(() => {
       localStorage.setItem('isAuthenticated', 'true');
       localStorage.setItem('user', JSON.stringify({
         id: 1,
@@ -466,7 +461,7 @@ test.describe('Checkout Tests', () => {
 
   test('should have place order button', async ({ page }) => {
     // Mock authentication and add product to cart
-    await page.evaluate(() => {
+    await page.addInitScript(() => {
       localStorage.setItem('isAuthenticated', 'true');
       localStorage.setItem('user', JSON.stringify({
         id: 1,

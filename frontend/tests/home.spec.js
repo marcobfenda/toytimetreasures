@@ -40,15 +40,26 @@ test.describe('Home Page Tests', () => {
   });
 
   test('should display call-to-action buttons', async ({ page }) => {
-    // Look for CTA buttons
-    const ctaButtons = page.locator('.btn-primary');
+    // Look for CTA buttons that are actually on the home page
+    // Hero section buttons
+    const shopNowButton = page.locator('a.btn.btn-primary.btn-lg:has-text("Shop Now")');
+    if (await shopNowButton.count() > 0) {
+      await expect(shopNowButton.first()).toBeVisible();
+      await expect(shopNowButton.first()).toBeEnabled();
+    }
     
-    if (await ctaButtons.count() > 0) {
-      await expect(ctaButtons.first()).toBeVisible();
-      
-      // Check if CTA buttons are clickable
-      const firstButton = ctaButtons.first();
-      await expect(firstButton).toBeEnabled();
+    // Search button
+    const searchButton = page.locator('button.btn.btn-primary:has-text("Search")');
+    if (await searchButton.count() > 0) {
+      await expect(searchButton.first()).toBeVisible();
+      await expect(searchButton.first()).toBeEnabled();
+    }
+    
+    // View All Products button
+    const viewAllButton = page.locator('a.btn.btn-primary.btn-lg:has-text("View All Products")');
+    if (await viewAllButton.count() > 0) {
+      await expect(viewAllButton.first()).toBeVisible();
+      await expect(viewAllButton.first()).toBeEnabled();
     }
   });
 

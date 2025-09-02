@@ -2,11 +2,6 @@ const { test, expect } = require('@playwright/test');
 
 test.describe('Shopping Cart Tests', () => {
   test.beforeEach(async ({ page }) => {
-    // Clear cart state
-    await page.evaluate(() => {
-      localStorage.removeItem('cart');
-      sessionStorage.removeItem('cart');
-    });
     await page.goto('/');
   });
 
@@ -17,14 +12,14 @@ test.describe('Shopping Cart Tests', () => {
     await expect(page).toHaveURL('/cart');
     
     // Look for empty cart message
-    const emptyCartMessage = page.locator('.empty-cart, .cart-empty, .no-items, .empty-state');
+    const emptyCartMessage = page.locator('.alert.alert-info');
     
     if (await emptyCartMessage.count() > 0) {
       await expect(emptyCartMessage.first()).toBeVisible();
     } else {
-      // If no specific empty message, check if cart container exists
-      const cartContainer = page.locator('.cart-container, .cart-items, .cart-content');
-      await expect(cartContainer.first()).toBeVisible();
+      // If no specific empty message, check if cart page exists
+      const cartPage = page.locator('.cart-page');
+      await expect(cartPage.first()).toBeVisible();
     }
   });
 

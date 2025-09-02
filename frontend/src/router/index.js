@@ -78,25 +78,25 @@ const routes = [
     path: '/admin/contacts',
     name: 'AdminContacts',
     component: () => import('@/views/AdminContacts.vue'),
-    meta: { requiresAuth: true }
+    meta: { requiresAuth: true, requiresAdmin: true }
   },
   {
     path: '/admin/categories',
     name: 'AdminCategories',
     component: () => import('@/views/AdminCategories.vue'),
-    meta: { requiresAuth: true }
+    meta: { requiresAuth: true, requiresAdmin: true }
   },
   {
     path: '/admin/products',
     name: 'AdminProducts',
     component: () => import('@/views/AdminProducts.vue'),
-    meta: { requiresAuth: true }
+    meta: { requiresAuth: true, requiresAdmin: true }
   },
   {
     path: '/admin/orders',
     name: 'AdminOrders',
     component: () => import('@/views/AdminOrders.vue'),
-    meta: { requiresAuth: true }
+    meta: { requiresAuth: true, requiresAdmin: true }
   },
   {
     path: '/admin/settings',
