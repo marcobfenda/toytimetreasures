@@ -154,6 +154,14 @@ test.describe('Products Tests', () => {
     const searchInput = page.locator('input[type="search"], .search-input, #search, [placeholder*="search" i]');
     
     if (await searchInput.count() > 0) {
+      // On mobile, the search input might be in a collapsed navigation
+      // Check if we need to expand the mobile navigation
+      const mobileToggle = page.locator('.navbar-toggler');
+      if (await mobileToggle.count() > 0 && await mobileToggle.first().isVisible()) {
+        await mobileToggle.first().click();
+        await page.waitForTimeout(500); // Wait for animation
+      }
+      
       await searchInput.first().fill('toy');
       await searchInput.first().press('Enter');
       
