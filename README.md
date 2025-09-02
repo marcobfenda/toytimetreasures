@@ -17,6 +17,7 @@ A modern, responsive e-commerce website built with Vue.js, PHP, MySQL, and Docke
 - **Order Management**: Complete order processing with detailed item tracking
 - **Admin Panel**: Administrative interface for managing products, categories, and orders
 - **Responsive Design**: Mobile-first approach for all devices
+- **Comprehensive Testing**: Full Playwright test suite covering all functionality
 
 ## 🛠️ Tech Stack
 
@@ -27,6 +28,7 @@ A modern, responsive e-commerce website built with Vue.js, PHP, MySQL, and Docke
 - **Bootstrap 5** - CSS framework
 - **Font Awesome** - Icon library
 - **Vite** - Build tool and dev server
+- **Playwright** - End-to-end testing framework
 
 ### Backend
 - **PHP 8.2** - Server-side scripting
@@ -98,8 +100,19 @@ onlineshop/
 │   │   ├── views/         # Page components
 │   │   ├── App.vue        # Main app component
 │   │   └── main.js        # App entry point
+│   ├── tests/             # Playwright test suite
+│   │   ├── navigation.spec.js    # Navigation tests
+│   │   ├── home.spec.js          # Home page tests
+│   │   ├── authentication.spec.js # Authentication tests
+│   │   ├── products.spec.js      # Product tests
+│   │   ├── cart.spec.js          # Shopping cart tests
+│   │   ├── checkout.spec.js      # Checkout tests
+│   │   ├── admin.spec.js         # Admin panel tests
+│   │   ├── run-tests.sh          # Test runner script
+│   │   └── README.md             # Testing documentation
 │   ├── Dockerfile         # Frontend container
 │   ├── package.json       # Dependencies
+│   ├── playwright.config.js # Playwright configuration
 │   └── vite.config.js     # Vite configuration
 ├── nginx/                  # Nginx configuration
 ├── docker-compose.yml      # Docker services
@@ -185,6 +198,183 @@ The MySQL database is automatically initialized with:
 - Add new tables or modify existing ones
 - Sample data can be customized
 
+## 🧪 Testing
+
+### Playwright Test Suite
+
+This project includes a comprehensive end-to-end testing suite built with Playwright, covering all major functionality of the online shop.
+
+#### Test Coverage
+
+The test suite covers the following areas:
+
+- **Navigation Tests** - Header, footer, mobile navigation, routing
+- **Home Page Tests** - Hero section, featured products, search, responsiveness
+- **Authentication Tests** - Login, registration, user management, protected routes
+- **Products Tests** - Product listing, details, categories, search, filtering
+- **Shopping Cart Tests** - Cart functionality, item management, totals
+- **Checkout Tests** - Checkout forms, validation, payment methods, shipping
+- **Admin Panel Tests** - Admin access, product/order management, admin controls
+
+#### Running Tests
+
+**Prerequisites:**
+- Frontend application running on `http://localhost:3000`
+- Backend API running on `http://localhost:8000`
+- Node.js and npm installed
+
+**Quick Test Commands:**
+```bash
+# Navigate to frontend directory
+cd frontend
+
+# Run all tests
+npm run test
+
+# Run tests with UI mode (interactive)
+npm run test:ui
+
+# Run tests in headed mode (visible browser)
+npm run test:headed
+
+# Run tests in debug mode
+npm run test:debug
+
+# Show test report
+npm run test:report
+```
+
+**Using the Test Runner Script:**
+```bash
+# Make script executable (first time only)
+chmod +x tests/run-tests.sh
+
+# Run all tests
+./tests/run-tests.sh all
+
+# Run specific test file
+./tests/run-tests.sh specific navigation.spec.js
+
+# Run tests in specific browser
+./tests/run-tests.sh browser firefox
+
+# Show all options
+./tests/run-tests.sh help
+```
+
+**Running Specific Tests:**
+```bash
+# Run only navigation tests
+npx playwright test navigation.spec.js
+
+# Run tests matching a pattern
+npx playwright test --grep "login"
+
+# Run tests in specific browser
+npx playwright test --project=chromium
+npx playwright test --project=firefox
+npx playwright test --project=webkit
+
+# Run tests on mobile devices
+npx playwright test --project="Mobile Chrome"
+npx playwright test --project="Mobile Safari"
+```
+
+#### Test Configuration
+
+The tests are configured in `playwright.config.js` with:
+
+- **Multi-browser support** - Chrome, Firefox, Safari, and mobile variants
+- **Automatic dev server startup** - Runs `npm run dev` before tests
+- **Screenshots & videos** - Captured on test failure for debugging
+- **Parallel execution** - Tests run in parallel for faster execution
+- **Retry logic** - Automatic retries on failure in CI environments
+
+#### Test Structure
+
+Each test file follows this pattern:
+```javascript
+const { test, expect } = require('@playwright/test');
+
+test.describe('Feature Name', () => {
+  test.beforeEach(async ({ page }) => {
+    // Setup code for each test
+  });
+
+  test('should do something specific', async ({ page }) => {
+    // Test implementation
+  });
+});
+```
+
+#### Test Data and Mocking
+
+Tests use local storage mocking to simulate:
+- User authentication states
+- Admin privileges
+- Cart contents
+- User preferences
+
+#### Debugging Tests
+
+**Debug Mode:**
+```bash
+npm run test:debug
+```
+
+**UI Mode (Interactive):**
+```bash
+npm run test:ui
+```
+
+**Step-by-Step Debugging:**
+```bash
+npx playwright test --debug navigation.spec.js
+```
+
+**Viewing Test Reports:**
+```bash
+npm run test:report
+```
+
+#### Continuous Integration
+
+The test suite is configured for CI environments:
+- Retries on failure (2 retries in CI)
+- Single worker in CI for stability
+- Forbid-only mode to prevent accidental test.only usage
+
+#### Troubleshooting Tests
+
+**Common Issues:**
+1. **Tests failing due to missing elements** - Check if CSS classes have changed
+2. **Timing issues** - Increase wait timeouts or use proper wait strategies
+3. **Browser compatibility** - Test in different browsers to identify issues
+4. **Local storage issues** - Ensure proper cleanup in beforeEach hooks
+
+**Debug Commands:**
+```bash
+# Show browser information
+npx playwright --version
+
+# Install browsers
+npx playwright install
+
+# Update browsers
+npx playwright install --with-deps
+```
+
+**Test Maintenance:**
+- Update selectors when UI changes
+- Review and update test data
+- Monitor test execution times
+- Update browser versions
+- Review test coverage gaps
+
+For detailed testing documentation, see `frontend/tests/README.md`.
+
+---
+
 ## 🚀 Development
 
 ### Frontend Development
@@ -201,6 +391,12 @@ npm run dev
 
 # Build for production
 npm run build
+
+# Run tests
+npm run test
+
+# Run tests with UI mode
+npm run test:ui
 ```
 
 ### Recent Updates
