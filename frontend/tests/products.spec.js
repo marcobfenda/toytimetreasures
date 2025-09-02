@@ -12,7 +12,7 @@ test.describe('Products Tests', () => {
     await expect(page).toHaveURL('/products');
     
     // Look for products section
-    const productsSection = page.locator('.products-section, .products-grid, .products-list, .products-container');
+    const productsSection = page.locator('.products-section');
     if (await productsSection.count() > 0) {
       await expect(productsSection.first()).toBeVisible();
     }
@@ -22,7 +22,7 @@ test.describe('Products Tests', () => {
     await page.goto('/products');
     
     // Look for product cards
-    const productCards = page.locator('.product-card, .product-item, .card, .product');
+    const productCards = page.locator('.product-card');
     
     if (await productCards.count() > 0) {
       const firstCard = productCards.first();
@@ -36,13 +36,13 @@ test.describe('Products Tests', () => {
       }
       
       // Product title/name
-      const productTitle = firstCard.locator('.product-title, .product-name, h3, h4, .card-title');
+      const productTitle = firstCard.locator('.product-title');
       if (await productTitle.count() > 0) {
         await expect(productTitle.first()).toBeVisible();
       }
       
       // Product price
-      const productPrice = firstCard.locator('.product-price, .price, .card-price');
+      const productPrice = firstCard.locator('.product-price');
       if (await productPrice.count() > 0) {
         await expect(productPrice.first()).toBeVisible();
       }
@@ -53,13 +53,13 @@ test.describe('Products Tests', () => {
     await page.goto('/products');
     
     // Find first product card
-    const productCards = page.locator('.product-card, .product-item, .card, .product');
+    const productCards = page.locator('.product-card');
     
     if (await productCards.count() > 0) {
       const firstCard = productCards.first();
       
-      // Look for product link
-      const productLink = firstCard.locator('a[href*="/product"], .product-link, .view-product');
+      // Look for product link (the eye icon button)
+      const productLink = firstCard.locator('a[href*="/product"]');
       
       if (await productLink.count() > 0) {
         // Get the href attribute

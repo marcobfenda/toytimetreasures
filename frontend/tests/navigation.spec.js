@@ -13,7 +13,6 @@ test.describe('Navigation Tests', () => {
     await expect(page.locator('header .navbar-brand')).toBeVisible();
     
     // Check if main navigation links are present
-    await expect(page.locator('nav a[href="/"]')).toBeVisible();
     await expect(page.locator('nav a[href="/products"]')).toBeVisible();
     await expect(page.locator('nav a[href="/about"]')).toBeVisible();
     await expect(page.locator('nav a[href="/contact"]')).toBeVisible();
@@ -33,20 +32,28 @@ test.describe('Navigation Tests', () => {
     await expect(page).toHaveURL('/contact');
     
     // Navigate back to Home
-    await page.click('nav a[href="/"]');
+    await page.click('header .navbar-brand');
     await expect(page).toHaveURL('/');
   });
 
   test('should display cart icon in header', async ({ page }) => {
     // Check if cart icon/link is visible
-    const cartLink = page.locator('nav a[href="/cart"], nav .cart-icon, nav .shopping-cart');
+    const cartLink = page.locator('nav .nav-link i.fa-shopping-cart');
     await expect(cartLink.first()).toBeVisible();
   });
 
   test('should display user authentication links when not logged in', async ({ page }) => {
     // Check if login/register links are visible when not authenticated
-    await expect(page.locator('nav a[href="/login"]')).toBeVisible();
-    await expect(page.locator('nav a[href="/register"]')).toBeVisible();
+    // These are in a dropdown menu, so we need to click to see them
+    const userDropdown = page.locator('nav .nav-link i.fa-user').first();
+    await expect(userDropdown).toBeVisible();
+    
+    // Click the dropdown to open it
+    await userDropdown.click();
+    
+    // Now check if the dropdown items are visible
+    await expect(page.locator('nav .dropdown-menu a[href="/login"]')).toBeVisible();
+    await expect(page.locator('nav .dropdown-menu a[href="/register"]')).toBeVisible();
   });
 
   test('should have responsive navigation on mobile', async ({ page }) => {
@@ -54,7 +61,7 @@ test.describe('Navigation Tests', () => {
     await page.setViewportSize({ width: 375, height: 667 });
     
     // Check if mobile menu toggle exists (hamburger menu)
-    const mobileToggle = page.locator('.navbar-toggler, .mobile-menu-toggle, [data-bs-toggle="collapse"]');
+    const mobileToggle = page.locator('.navbar-toggler');
     if (await mobileToggle.count() > 0) {
       await expect(mobileToggle.first()).toBeVisible();
       
@@ -62,7 +69,7 @@ test.describe('Navigation Tests', () => {
       await mobileToggle.first().click();
       
       // Check if navigation menu is expanded
-      const navMenu = page.locator('.navbar-collapse, .mobile-menu');
+      const navMenu = page.locator('.navbar-collapse');
       await expect(navMenu.first()).toBeVisible();
     }
   });

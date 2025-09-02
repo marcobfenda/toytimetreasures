@@ -7,14 +7,14 @@ test.describe('Home Page Tests', () => {
 
   test('should display home page with hero section', async ({ page }) => {
     // Check if page title is correct
-    await expect(page).toHaveTitle(/Online Shop|ToyTime Treasures/);
+    await expect(page).toHaveTitle(/Toy Time Treasures/);
     
     // Check if hero section exists
-    const heroSection = page.locator('.hero, .hero-section, .jumbotron, .banner');
+    const heroSection = page.locator('.hero-section');
     await expect(heroSection.first()).toBeVisible();
     
     // Check if hero has some content
-    const heroContent = heroSection.locator('h1, .hero-title, .banner-title');
+    const heroContent = heroSection.locator('h1, .hero-title');
     if (await heroContent.count() > 0) {
       await expect(heroContent.first()).toBeVisible();
     }
@@ -22,13 +22,13 @@ test.describe('Home Page Tests', () => {
 
   test('should display featured products section', async ({ page }) => {
     // Look for featured products section
-    const featuredSection = page.locator('.featured-products, .products-section, .products-grid, .products-list');
+    const featuredSection = page.locator('.featured-products');
     
     if (await featuredSection.count() > 0) {
       await expect(featuredSection.first()).toBeVisible();
       
       // Check if there are product cards
-      const productCards = featuredSection.locator('.product-card, .product-item, .card, .product');
+      const productCards = featuredSection.locator('.product-card');
       if (await productCards.count() > 0) {
         await expect(productCards.first()).toBeVisible();
         
@@ -41,7 +41,7 @@ test.describe('Home Page Tests', () => {
 
   test('should display call-to-action buttons', async ({ page }) => {
     // Look for CTA buttons
-    const ctaButtons = page.locator('.btn-primary, .cta-button, .shop-now, .view-products');
+    const ctaButtons = page.locator('.btn-primary');
     
     if (await ctaButtons.count() > 0) {
       await expect(ctaButtons.first()).toBeVisible();
@@ -54,7 +54,7 @@ test.describe('Home Page Tests', () => {
 
   test('should display categories section', async ({ page }) => {
     // Look for categories section
-    const categoriesSection = page.locator('.categories, .categories-section, .category-grid');
+    const categoriesSection = page.locator('.categories-section');
     
     if (await categoriesSection.count() > 0) {
       await expect(categoriesSection.first()).toBeVisible();
@@ -69,7 +69,7 @@ test.describe('Home Page Tests', () => {
 
   test('should have working search functionality', async ({ page }) => {
     // Look for search input
-    const searchInput = page.locator('input[type="search"], .search-input, #search, [placeholder*="search" i]');
+    const searchInput = page.locator('input[placeholder*="Search for products"]');
     
     if (await searchInput.count() > 0) {
       await expect(searchInput.first()).toBeVisible();
@@ -79,19 +79,19 @@ test.describe('Home Page Tests', () => {
       await searchInput.first().press('Enter');
       
       // Should navigate to search results or show results
-      await expect(page).toHaveURL(/\/search|\/products/);
+      await expect(page).toHaveURL(/\/search/);
     }
   });
 
   test('should display newsletter signup if present', async ({ page }) => {
     // Look for newsletter section
-    const newsletterSection = page.locator('.newsletter, .newsletter-signup, .subscribe');
+    const newsletterSection = page.locator('.newsletter-section');
     
     if (await newsletterSection.count() > 0) {
       await expect(newsletterSection.first()).toBeVisible();
       
       // Check if email input exists
-      const emailInput = newsletterSection.locator('input[type="email"], .email-input');
+      const emailInput = newsletterSection.locator('input[type="email"]');
       if (await emailInput.count() > 0) {
         await expect(emailInput.first()).toBeVisible();
       }
